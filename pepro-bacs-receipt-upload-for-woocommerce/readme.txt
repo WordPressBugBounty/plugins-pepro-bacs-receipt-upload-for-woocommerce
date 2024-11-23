@@ -2,11 +2,11 @@
 Contributors: peprodev, amirhpcom, blackswanlab
 Donate link: https://pepro.dev/donate
 Tags: WooCommerce, Upload Receipt, eCommerce solution
-Version: 2.6.9
-Stable tag: 2.6.9
+Version: 2.7.0
+Stable tag: 2.7.0
 Requires PHP: 5.6
-Tested up to: 6.6.1
-WC tested up to: 9.2.3
+Tested up to: 6.7.0
+WC tested up to: 9.4.1
 Requires at least: 5.0
 WC requires at least: 4.0
 License: GPLv2 or later
@@ -92,10 +92,16 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Upgrade Notice ==
 
+= v2.7.0 (2024-11-22/1403-09-02) =
+- Fixed security Issue Addressed by Mika from Patchstack & vgo0 from Wordfence
+
 = v2.6.9 (2024-08-14/1403-05-24) =
 - HPOS Full Compatibility
 
 == Changelog ==
+
+= v2.7.0 (2024-11-22/1403-09-02) =
+- Fixed security Issue Addressed by Mika from Patchstack & vgo0 from Wordfence
 
 = v2.6.9 (2024-08-14/1403-05-24) =
 - HPOS Full Compatibility
