@@ -9,20 +9,20 @@ Developer: amirhp.com
 Developer URI: https://amirhp.com
 Author URI: https://pepro.dev/
 Plugin URI: https://pepro.dev/receipt-upload
-Version: 2.7.0
-Stable tag: 2.7.0
+Version: 2.8.0
+Stable tag: 2.8.0
 Requires at least: 5.0
-Tested up to: 6.7.0
+Tested up to: 6.7
 Requires PHP: 5.6
 WC requires at least: 4.0
-WC tested up to: 9.4.1
+WC tested up to: 9.7.1
 Text Domain: receipt-upload
 Domain Path: /languages
 Copyright: (c) Pepro Dev. Group, All rights reserved.
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * @Last modified by: amirhp-com <its@amirhp.com>
- * @Last modified time: 2024/11/22 10:09:05
+ * @Last modified time: 2025/03/31 11:43:54
 */
 
 use Automattic\WooCommerce\Utilities\OrderUtil;
@@ -33,7 +33,7 @@ defined("ABSPATH") or die("<h2>Unauthorized Access!</h2><hr><small>PeproDev WooC
 if (!class_exists("peproDev_UploadReceiptWC")) {
   class peproDev_UploadReceiptWC {
     public $td = "receipt-upload";
-    public $version = "2.7.0";
+    public $version = "2.8.0";
     public $db_slug = "wcuploadrcp";
     public $url;
     public $title;
@@ -51,12 +51,11 @@ if (!class_exists("peproDev_UploadReceiptWC")) {
     private $use_secure_link;
     private $defaultImg;
     public function __construct() {
-      load_plugin_textdomain("receipt-upload", false, dirname(plugin_basename(__FILE__)) . "/languages/");
       $this->plugin_dir                       = plugin_dir_path(__FILE__);
       $this->assets_url                       = plugins_url("/assets/", __FILE__);
       $this->url                              = admin_url("admin.php?page=wc-settings&tab=checkout&section=upload_receipt");
-      $this->title                            = __("WooCommerce Upload Receipt", $this->td);
-      $this->title_w                          = sprintf(__("%2\$s ver. %1\$s", $this->td), $this->version, $this->title);
+      $this->title                            = 'WooCommerce Upload Receipt';
+      $this->title_w                          = sprintf('%2$s ver. %1$s', $this->version, $this->title);
       $this->folder_name                      = apply_filters("pepro_upload_receipt_folder_name", "receipt_upload");
       $this->status_order_placed              = get_option("peprobacsru_auto_change_status", "none");
       $this->status_receipt_awaiting_upload   = get_option("peprobacsru_status_on_receipt_awaiting_upload", "none");
@@ -87,6 +86,7 @@ if (!class_exists("peproDev_UploadReceiptWC")) {
       });
     }
     public function init_plugin() {
+      load_plugin_textdomain("receipt-upload", false, dirname(plugin_basename(__FILE__)) . "/languages/");
       $this->add_wc_prebuy_status();
       add_action("admin_init", array($this, "admin_init"));
       add_action("pre_get_posts", array($this, "media_custom_filter"));
@@ -753,7 +753,10 @@ if (!class_exists("peproDev_UploadReceiptWC")) {
           $src = $src_org ? $src_org[0] : $this->defaultImg;
         }
         if ($src_org) {
-          echo "<img src='$src' class='receipt-preview $status' alt='$status_text' title='$status_text' />";
+          $full_url = wp_get_attachment_url($attachment_id);
+          echo "<a href='" . esc_url($full_url) . "' target='_blank'>
+                  <img src='" . esc_url($src) . "' class='receipt-preview $status' alt='" . esc_attr($status_text) . "' title='" . esc_attr($status_text) . "' />
+                </a>";
         } else {
           echo "<span style='box-shadow: 0 0 0 3px #009fff;text-align: center;padding: 0.5rem;'>" . __("Awaiting Upload", $this->td) . "</span>";
         }
@@ -1071,7 +1074,6 @@ if (!class_exists("peproDev_UploadReceiptWC")) {
             remove_filter("upload_dir", array($this, "change_receipt_upload_dir"));
             $datetime = current_time("Y-m-d H:i:s");
             if (!is_wp_error($attachment_id) && is_numeric($attachment_id)) {
-              do_action("woocommerce_receipt_uploaded_notification", $postOrder);
               $order->update_meta_data("receipt_uploaded_attachment_id", $attachment_id);
               $order->update_meta_data("receipt_upload_date_uploaded", $datetime);
               $order->update_meta_data("receipt_upload_status", "pending");
@@ -1079,11 +1081,12 @@ if (!class_exists("peproDev_UploadReceiptWC")) {
               $status_text = $this->get_status($status);
               if ("none" != $this->status_receipt_awaiting_approval) {
                 $order->set_status($this->status_receipt_awaiting_approval, "<strong>Order Status Changed by PeproDev Upload Receipt</strong><br>");
-              } 
+              }
               update_post_meta($attachment_id, "_attached_order", $postOrder);
               $url = wp_get_attachment_image_url($attachment_id, [50, 50]);
               $order->add_order_note("<strong>{$this->title}</strong><br>" . sprintf(__("Customer uploaded payment receipt image. %s", $this->td), "<br><a target='_blank' href='" . wp_get_attachment_url($attachment_id) . "'><img src=\"$url\" style='height: 50px; min-width: 50px; border-radius: 4px; border: 1px solid #eee;' /></a>"));
               $order->save();
+              do_action("woocommerce_receipt_uploaded_notification", $postOrder);
               do_action("peprodev_uploadreceipt_customer_uploaded_receipt", $postOrder, $attachment_id);
               wp_send_json_success(
                 array(
