@@ -1,5 +1,5 @@
 /**
- * @Last modified by:   amirhp-com <its@amirhp.com>
+ * @Last modified by: AmirhpCom <its@amirhp.com>
  * @Last modified time: 2022/08/15 15:42:15
  */
 toast {
@@ -126,4 +126,18 @@ toast.active {
 
 .woocommerce-table--upload-receipt th {
   width: 200px;
+}
+
+.woocommerce-table--upload-receipt {
+  width: 100%;
+  background: #f5f5f5;
+  position: relative;
+}
+
+.woocommerce-table--upload-receipt .receipt-upload-fields {
+  display: inline-block;
+}
+
+.woocommerce-table--upload-receipt #receipt-file {
+  width: auto;
 }

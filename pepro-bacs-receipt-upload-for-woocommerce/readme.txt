@@ -1,74 +1,73 @@
-=== PeproDev WooCommerce Receipt Uploader ===
+=== PeproDev Receipt Uploader for WooCommerce ===
 Contributors: peprodev, amirhpcom, blackswanlab
 Donate link: https://pepro.dev/donate
-Tags: WooCommerce, Upload Receipt, eCommerce solution
-Version: 2.8.0
-Stable tag: 2.8.0
-Requires PHP: 5.6
-Tested up to: 6.7
-WC tested up to: 9.7
-Requires at least: 5.0
-WC requires at least: 4.0
+Tags: woocommerce, receipt, bank transfer, bacs, payment receipt
+Requires at least: 6.0
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 2.15.0
+WC requires at least: 7.0
+WC tested up to: 11.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Upload Receipt for Any Payment method in WooCommerce
+Let customers upload a payment receipt (image or PDF) for any payment method, and approve or reject it from the WooCommerce order screen.
 
 == Description ==
-### **Upload Receipt for Any Payment method in WooCommerce. Customers will Upload the receipt and Shop Managers will approve/reject it manually.**
 
+**PeproDev Receipt Uploader for WooCommerce** is made for stores that accept bank transfers, card-to-card, cash deposits or any offline payment. After checkout the customer uploads the payment receipt on the thank-you page or in My Account, and the shop manager approves or rejects it from the order screen.
 
-== 🔥 v2.6 [2024 🎉 release] Finally Upload to different directory is here! ==
-- 😍 Upload Receipts to different directory (wp-content/uploads/receipt_upload) -- Thanks to (Yok Morales)
-- ✅ Added compatibility with WooCommerce High-Performance Order Storage
-- ✅ Auto-add an .htaccess file into upload directory to prevent listing
-- ✅ Added filter to media list mode to show Only Receipts or Filter Receipts by Order ID
-- ✅ Added Receipts file size column in media screen, listing view
-- ✅ Fixed trimming New Lines while Saving custom html content (before/after upload form)
+= Features =
 
-== 🔥 v2.0, a Mega-update released 🤩 ==
-- 😍 Integration with WooCommerce Email Notifications
-- 😍 Send Email on Receipt Upload, Approve and Reject to Admin and Customer
-- 😍 Change Order Status on Order Placed, Receipt Uploaded, Approved or Rejected
-- 😍 Added Shortcode to Display Uploaded Receipt `[receipt-preview order_id=2095]`
-- 😍 Added Shortcode to Display Upload Receipt Form `[receipt-form order_id=2095]`
-- 😍 Added Secure Image Display! (Hide uploaded receipt URL)
+* Receipt upload for any payment method (BACS, cheque, cash on delivery or any custom gateway)
+* Upload form on the thank-you page and on the My Account order details page
+* Approve, reject or reset receipts from the order screen, with an admin note for the customer
+* Automatic order status change on order placed, receipt uploaded, approved and rejected
+* Three extra order statuses: Awaiting Receipt Upload, Awaiting Receipt Approval and Receipt Rejected
+* Six WooCommerce emails (uploaded, approved and rejected, for customer and admin), fully customizable from WooCommerce > Settings > Emails
+* Allowed file types (JPG, PNG, WEBP, GIF, BMP, AVIF, HEIC, PDF) and maximum file size
+* Custom content before and after the upload form (HTML and shortcodes), custom form title and optional redirect after upload
+* Receipt column in the orders list and a receipt filter in the media library
+* Shortcodes: `[receipt-form]` and `[receipt-preview]`
+* Compatible with High-Performance Order Storage (HPOS) and WooCommerce Subscriptions
+* RTL ready, translation ready
 
-== 🔥 Since v.1.5 ~> Multiple Gateways Receipt acceptance ==
+= Security =
 
-- ✅ Hook for Developers to run actions on receipt upload by user
-- ✅ Hook for Developers to run actions on receipt status change
-- ✅ Optional: Redirect to an Address on Success Receipt upload
-- ✅ Admin can change Receipt acceptant Gateways
-- ✅ Admin can change Receipt Upload size limit
-- ✅ Admin can change Receipt File types (e.g. to accept PDF ~> add application/pdf)
-- 😍 RTL-ready, Persian Translation included by default
-- 😍 Fully Compatible with Pepro Ultimate Profile Solutions
-- 😍 Fully Compatible with Pepro Ultimate Invoice for WooCommerce
-- 😍 Fully Compatible with Pepro Delivery Stages for WooCommerce
-- 😍 Fully Compatible with LocoTranslate to have your own translation
+* Receipts are stored in a protected folder (`wp-content/uploads/receipt_upload`) with random file names
+* Receipts are only shown through signed links that are bound to the order they belong to
+* Only the order owner (or a guest with the order key) and shop managers can upload or view a receipt
+* Files are validated by their real content, not only by extension
+* The Help & Tools tab checks whether your server blocks direct access to the receipt folder and gives you an Nginx rule if it does not
 
+= Developer hooks =
+
+* Actions: `peprodev_uploadreceipt_customer_uploaded_receipt`, `peprodev_uploadreceipt_receipt_status_changed`, `peprodev_uploadreceipt_receipt_approved`, `peprodev_uploadreceipt_receipt_rejected`, `peprodev_uploadreceipt_receipt_awaiting_upload`, `peprodev_uploadreceipt_receipt_awaiting_approval`, `peprodev_uploadreceipt_order_placed`, `peprodev_uploadreceipt_save_receipt`, `peprodev_uploadreceipt_email_receipt_preview`
+* Filters: `peprodev_uploadreceipt_folder_name`, `peprodev_uploadreceipt_allowed_file_mimes`, `peprodev_uploadreceipt_max_upload_size`, `peprodev_uploadreceipt_safe_mimes`
+* jQuery events on `document`: `peprodev_receipt_uploader_ajax_prevented`, `peprodev_receipt_uploader_ajax_success`, `peprodev_receipt_uploader_ajax_failed`, `peprodev_receipt_uploader_ajax_completed`
 
 == Installation ==
-1. Upload the plugin files to the `/wp-content/plugins` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Set up WooCommerce BACS Payments
-4. Users will upload receipt after transferring money in BACS payment
-5. From WooCommerce Orders screen, view/change/delete/approve/reject/comment on transaction receipt
 
+1. Install the plugin from Plugins > Add New, or upload it to `/wp-content/plugins/`.
+2. Activate it. WooCommerce must be active.
+3. Go to WooCommerce > Settings > Receipt Upload and choose the payment methods that need a receipt.
+4. Customers upload their receipt after checkout, you approve or reject it from the order screen.
 
-== Disclaimer and Warranty ==
-This plugin is provided "as is" without any warranties, express or implied. While every effort has been made to ensure reliability and security, the developers are not responsible for any issues arising from its use. Always test in a staging environment before deploying to production.
-
-== Credits ==
-Developed at: [BlackSwanDev](https://blackswandev.com/) & [Pepro.Dev](https://pepro.dev/)
-Lead Developer: [AmirhpCom](https://amirhp.com/)
-
+If your site runs on Nginx, open the Help & Tools tab and add the suggested rule to block direct access to the receipt folder.
 
 == Frequently Asked Questions ==
 
+= Where are the settings? =
+WooCommerce > Settings > Receipt Upload.
+
+= Can guests upload a receipt? =
+Yes. Guests can upload from the thank-you page, which is protected by the WooCommerce order key.
+
+= My site runs on Nginx, are receipts safe? =
+Receipts always use signed links, but Nginx ignores `.htaccess`. Open the Help & Tools tab to check the folder and copy the Nginx rule if needed.
+
 = How can I contribute to this plugin? =
-You can help us improve our works by committing/requesting your changes to [our GitHub repository](https://github.com/peprodev/wc-upload-reciept)
+Send a pull request or open an issue on [our GitHub repository](https://github.com/peprodev/wc-upload-reciept).
 
 = How can I report security bugs? =
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/pepro-bacs-receipt-upload-for-woocommerce)
@@ -84,22 +83,71 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 7. Customer receipt approved in order details page
 8. WooCommerce Orders List and BACS Receipt Status
 
-
 == Upgrade Notice ==
 
-= v2.8.0 2025-03-31 | 1404-01-11 =
-- Fixed: ensure receipt attachment meta is saved before email notification
-- Added: Enhance UX by linking receipt preview image to full-size version
-- Fixed: load_plugin_textdomain called too early in WordPress 6.7+
-- This version was released with thanks to Alan Rodriguez (github@tatenalan)
-
-= v2.7.0 (2024-11-22/1403-09-02) =
-- Fixed security Issue Addressed by Mika from Patchstack & vgo0 from Wordfence
-
-= v2.6.9 (2024-08-14/1403-05-24) =
-- HPOS Full Compatibility
+= 2.15.0 =
+Security release. Fixes an unauthenticated receipt upload issue and a receipt image disclosure issue. Please update immediately. Settings moved to WooCommerce > Settings > Receipt Upload.
 
 == Changelog ==
+
+= v2.15.0 (2026-09-26) =
+- Fixed: receipt status showed as Unknown Status on the first thank-you page view with block themes
+
+= v2.14.0 (2026-09-26) =
+- Security: fixed unauthenticated cross-order receipt tampering (IDOR) in the upload request, thanks to Lyris Vale for the responsible disclosure
+- Security: fixed unauthenticated disclosure of other customers' receipt images (IDOR) in the receipt preview, thanks to Shivamani Vastrala for the responsible disclosure
+- Tested up to WordPress 7.1, WooCommerce 11.1 and PHP 8.1 to 8.5
+- Updated readme, FAQ and developer hooks list
+- Developer name updated to AmirhpCom
+
+= v2.13.0 (2026-09-26) =
+- New: dedicated settings tab under WooCommerce > Settings > Receipt Upload with General, Order Status Automation, Upload Form and Help & Tools sections
+- New: allowed file types picker (JPG, PNG, WEBP, GIF, BMP, AVIF, HEIC, PDF) instead of typing MIME types, old values are migrated
+- New: receipt storage protection check with an Nginx rule suggestion when the folder is exposed
+- New: custom upload form title
+- New: server upload limit is shown next to the maximum file size
+- Improved: clearer setting labels and descriptions, quick links to all receipt emails
+- Old settings URL redirects to the new tab
+
+= v2.12.0 (2026-09-26) =
+- Plugin renamed to PeproDev Receipt Uploader for WooCommerce to follow WordPress.org trademark rules
+- Text domain changed to pepro-bacs-receipt-upload-for-woocommerce so translations from translate.wordpress.org load automatically
+- Resolved all Plugin Check (PCP) errors and warnings
+- Requires WordPress 6.0+, PHP 7.4+ and WooCommerce 7.0+, declared WooCommerce as a required plugin
+- Deprecated filters pepro_upload_receipt_folder_name, pepro_upload_receipt_allowed_file_mimes and pepro_upload_receipt_max_upload_size, use the peprodev_uploadreceipt_ prefixed versions
+- Global plugin instance renamed to $GLOBALS['peprodev_uploadreceipt']
+- Plugin no longer deactivates itself when WooCommerce is missing, it shows a notice instead
+- Updated translation template and Persian translation
+
+= v2.11.0 (2026-09-26) =
+- Security: receipt form and preview shortcodes only render for the order owner, a guest with a valid order key, or shop managers
+- Security: email receipt preview no longer relies on a shortcode that could be abused from post content
+- Security: all output is escaped, all input is sanitized and unslashed
+- Security: saving receipt data on the order screen now requires order management capability and validates the status value
+- Security: media library receipt filter is limited to the admin media screen
+- Security: custom order statuses are no longer registered as public
+- Fixed: when order placed status was set to Disabled, the thank-you page changed order status to Pending payment
+- Fixed: setting a receipt back to Awaiting Upload sent a wrong receipt uploaded email
+- Fixed: undefined variables notice when saving admin note
+- Fixed: uploaded date and admin note line breaks
+- Improved: emails now share one base class, support {order_number} and {order_date} placeholders and admin emails are marked as sent to admin
+- Improved: previously uploaded receipts list works with HPOS
+- Improved: assets are versioned and loaded only where needed
+
+= v2.10.0 (2026-09-26) =
+- Security: receipt previews are now served by signed, unforgeable links that are checked against the order the receipt belongs to, reported by Shivamani Vastrala
+- Security: receipt folder is now protected against direct access (deny rules and index file), created on upgrade and on every upload
+- Security: new receipts get random file names and are stored as private attachments
+- Security: receipt attachment URLs, image sources and attachment pages are hidden from users who cannot manage orders
+- Removed: the old secure_preview link and the Use Secure Link option, receipts are always served securely now
+- Fixed: .htaccess was not created on the first upload
+
+= v2.9.0 (2026-09-26) =
+- Security: receipt upload now verifies order ownership (customer account or order key) instead of trusting a public nonce, reported by Lyris Vale
+- Security: upload nonce is now bound to the order
+- Security: uploads are blocked for approved or pending receipts and for order statuses not allowed in settings
+- Security: uploaded file type is validated by real content and extension against a safe list
+- Fixed: wrong receipt status returned after upload
 
 = v2.8.0 2025-03-31 | 1404-01-11 =
 - Fixed: ensure receipt attachment meta is saved before email notification
@@ -240,6 +288,13 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 = 1.0.0 =
 - Initial release
 
-== About Us ==
+== Credits ==
 
-***PEPRO DEV*** is a premium supplier of quality WordPress plugins, services and support. Join us at [https://pepro.dev/](https://pepro.dev/) and also don't forget to check our [free plugins](http://profiles.wordpress.org/peprodev/), we hope you enjoy them!
+Developed at [BlackSwanDev](https://blackswandev.com/) and [Pepro Dev](https://pepro.dev/)
+Lead Developer: [AmirhpCom](https://amirhp.com/)
+
+Security reports: Lyris Vale, Shivamani Vastrala, Mika (Patchstack), vgo0 (Wordfence)
+
+== Disclaimer and Warranty ==
+
+This plugin is provided "as is" without any warranties, express or implied. Always test in a staging environment before deploying to production.

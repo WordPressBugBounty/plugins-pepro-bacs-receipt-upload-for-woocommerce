@@ -1,51 +1,76 @@
-**PeproDev WooCommerce Receipt Uploader**
-==========================
+# PeproDev Receipt Uploader for WooCommerce
 
-### **Upload Receipt for Any Payment method in WooCommerce. Customers will Upload the receipt and Shop Managers will approve/reject it manually.**
+Let customers upload a payment receipt (image or PDF) for any payment method, and approve or reject it from the WooCommerce order screen.
 
-&nbsp;
+[WordPress.org](https://wordpress.org/plugins/pepro-bacs-receipt-upload-for-woocommerce/) · Current version: **2.15.0** · Requires WordPress 6.0+, WooCommerce 7.0+, PHP 7.4+ · Tested up to WordPress 7.1, WooCommerce 11.1, PHP 8.5
 
-##### 🔥 v2.6 [2024 🎉 release] - Finally Upload to different directory is here!
-- 😍 Upload to different directory (wp-content/uploads/receipt_upload) -- Thanks to (Yok Morales)
-- ✅ Auto-add an .htaccess file into upload directory to prevent listing
-- ✅ Added compatibility with WooCommerce High-Performance Order Storage
-- ✅ Added filter to media list mode to show Only Receipts or Filter Receipts by Order ID
-- ✅ Added Receipts file size column in media screen, listing view
-- ✅ Fixed trimming New Lines while Saving custom html content (before/after upload form)
+## Features
 
+- Receipt upload for any payment method (BACS, cheque, COD or any custom gateway)
+- Upload form on the thank-you page and in My Account order details
+- Approve, reject or reset receipts from the order screen, with an admin note
+- Automatic order status change on order placed, receipt uploaded, approved and rejected
+- Extra order statuses: Awaiting Receipt Upload, Awaiting Receipt Approval, Receipt Rejected
+- Six WooCommerce emails (uploaded / approved / rejected, for customer and admin)
+- File type picker (JPG, PNG, WEBP, GIF, BMP, AVIF, HEIC, PDF) and size limit
+- Custom content before/after the form, custom form title, redirect after upload
+- Orders list receipt column, media library receipt filter
+- Shortcodes: `[receipt-form]`, `[receipt-preview order_id=15]`
+- HPOS compatible, RTL and translation ready
 
-##### 🔥 v2.0, email notifications, shortcodes and secure src
-- 😍 Integration with WooCommerce Email Notifications
-- 😍 Send Email on Receipt Upload, Approve and Reject to Admin and Customer
-- 😍 Change Order Status on Order Placed, Receipt Uploaded, Approved or Rejected
-- 😍 Added Shortcode to Display Uploaded Receipt `[receipt-preview order_id=2095]`
-- 😍 Added Shortcode to Display Upload Receipt Form `[receipt-form order_id=2095]`
-- 😍 Added Secure Image Display! (Hide uploaded receipt URL)
-- 😍 Compatible with [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
-- 😍 Option to Enable/Disable Secure Link for Showing Uploaded Receipts
-- 😍 Now Compatible with [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
+## Security
 
-&nbsp;
+- Receipts are stored in `wp-content/uploads/receipt_upload` with random file names and deny rules
+- Receipts are only served through signed links bound to their order
+- Only the order owner (or a guest with the order key) and shop managers can upload or view receipts
+- Files are validated by real content
+- **Nginx**: `.htaccess` is ignored, add this to your server block (the Help & Tools tab checks it for you):
 
-##### 🔥 v.1.5, multiple gateways upload receipt acceptance
-- ✅ Hook for Developers to run actions on receipt upload by user
-- ✅ Hook for Developers to run actions on receipt status change
-- ✅ Optional: Redirect to an Address on Success Receipt upload
-- ✅ Admin can change Receipt acceptant Gateways
-- ✅ Admin can change Receipt Upload size limit
-- ✅ Admin can change Receipt File types (e.g. to accept PDF ~> add application/pdf)
-- 😍 RTL-ready, Persian Translation included by default
-- 😍 Fully Compatible with Pepro Ultimate Profile Solutions
-- 😍 Fully Compatible with Pepro Ultimate Invoice for WooCommerce
-- 😍 Fully Compatible with Pepro Delivery Stages for WooCommerce
-- 😍 Fully Compatible with LocoTranslate to have your own translation
+```nginx
+location ~* ^/wp-content/uploads/receipt_upload/ { deny all; return 403; }
+```
 
-### **Developed by** [Pepro Development Group](https://pepro.dev/) for WooCommerce
+Report security issues through the [Patchstack VDP](https://patchstack.com/database/vdp/pepro-bacs-receipt-upload-for-woocommerce).
 
-*Current Version: 2.7.0* \| *Lead Developer:* [amirhp.com](https://amirhp.com)
+## Settings
 
----
+WooCommerce → Settings → **Receipt Upload** (General, Order Status Automation, Upload Form, Help & Tools).
 
-#### How can I report security bugs?
+## Developer hooks
 
-You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/pepro-bacs-receipt-upload-for-woocommerce)
+**Actions**: `peprodev_uploadreceipt_customer_uploaded_receipt`, `peprodev_uploadreceipt_receipt_status_changed`, `peprodev_uploadreceipt_receipt_approved`, `peprodev_uploadreceipt_receipt_rejected`, `peprodev_uploadreceipt_receipt_awaiting_upload`, `peprodev_uploadreceipt_receipt_awaiting_approval`, `peprodev_uploadreceipt_order_placed`, `peprodev_uploadreceipt_save_receipt`, `peprodev_uploadreceipt_email_receipt_preview`
+
+**Filters**: `peprodev_uploadreceipt_folder_name`, `peprodev_uploadreceipt_allowed_file_mimes`, `peprodev_uploadreceipt_max_upload_size`, `peprodev_uploadreceipt_safe_mimes`
+
+**jQuery events** on `document`: `peprodev_receipt_uploader_ajax_prevented`, `peprodev_receipt_uploader_ajax_success`, `peprodev_receipt_uploader_ajax_failed`, `peprodev_receipt_uploader_ajax_completed`
+
+## Changelog
+
+### 2.15.0 (2026-09-26)
+- Fixed: receipt status showed as Unknown Status on the first thank-you page view with block themes
+
+### 2.14.0 (2026-09-26)
+- Security: fixed unauthenticated cross-order receipt tampering (IDOR), thanks to Lyris Vale
+- Security: fixed unauthenticated disclosure of other customers' receipt images (IDOR), thanks to Shivamani Vastrala
+- Tested up to WordPress 7.1, WooCommerce 11.1, PHP 8.1 – 8.5
+
+### 2.13.0
+- New settings tab with sections, file type picker, storage protection check, custom form title
+
+### 2.12.0
+- Renamed to *PeproDev Receipt Uploader for WooCommerce*, text domain `pepro-bacs-receipt-upload-for-woocommerce`, Plugin Check compliant
+
+### 2.11.0
+- Security hardening (access checks for shortcodes, escaping, capability checks) and bug fixes
+
+### 2.10.0
+- Signed receipt links and protected receipt storage
+
+### 2.9.0
+- Order ownership check for receipt uploads
+
+Full history in [readme.txt](readme.txt).
+
+## Credits
+
+Developed at [BlackSwanDev](https://blackswandev.com/) and [Pepro Dev](https://pepro.dev/) · Lead Developer: [AmirhpCom](https://amirhp.com/)

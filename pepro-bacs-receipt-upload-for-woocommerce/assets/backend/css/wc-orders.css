@@ -1,5 +1,5 @@
 /**
- * @Last modified by:   amirhp-com
+ * @Last modified by: AmirhpCom
  * @Last modified time: 2022/08/13 15:51:46
  */
 
@@ -96,4 +96,101 @@
 
 #tiptip_content, .chart-tooltip, .wc_error_tip {
 	text-align: start;
+}
+
+.receipt-preview {
+  width: 64px;
+  height: auto;
+  border-radius: 2px;
+}
+
+.receipt-preview.approved {
+  box-shadow: 0 0 0 3px green;
+}
+
+.receipt-preview.pending {
+  box-shadow: 0 0 0 3px orange;
+}
+
+.receipt-preview.rejected {
+  box-shadow: 0 0 0 3px red;
+}
+
+.receipt-awaiting-upload {
+  box-shadow: 0 0 0 3px #009fff;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 2px;
+}
+
+#receipt_upload-receipt-upload .receipt-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#change_receipt_attachment_id {
+  width: 100%;
+  min-height: 90px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+#receipt_upload-receipt-upload .widebutton .dashicons,
+#receipt_upload-receipt-upload .prev-uploaded-item .dashicons {
+  margin: 4px;
+}
+
+#receipt_upload-receipt-upload .prev-uploaded-item .button {
+  margin-top: 0.5rem;
+}
+
+#receipt_upload-receipt-upload .receipt-settings-link {
+  text-align: end;
+  display: block;
+}
+
+.peprodev-receipt-help {
+  padding: 0 !important;
+}
+
+.peprodev-receipt-card {
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 8px;
+  padding: 4px 20px 12px;
+  margin: 0 0 16px;
+  max-width: 900px;
+}
+
+.peprodev-receipt-card pre {
+  background: #f6f7f7;
+  padding: 10px;
+  overflow: auto;
+}
+
+.peprodev-receipt-card ul {
+  columns: 2;
+}
+
+.peprodev-receipt-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.peprodev-receipt-badge.ok {
+  background: #edfaef;
+  color: #00a32a;
+}
+
+.peprodev-receipt-badge.error {
+  background: #fcf0f1;
+  color: #d63638;
+}
+
+.peprodev-receipt-badge.warn {
+  background: #fcf9e8;
+  color: #996800;
 }
